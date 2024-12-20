@@ -38,6 +38,7 @@ import org.photonvision.common.logging.LogGroup;
 import org.photonvision.common.logging.Logger;
 import org.photonvision.vision.objects.Model;
 import org.photonvision.vision.objects.RknnModel;
+import org.photonvision.vision.objects.CoralModel;
 
 /**
  * Manages the loading of neural network models.
@@ -67,6 +68,8 @@ public class NeuralNetworkModelManager {
             backends.add(NeuralNetworkBackend.RKNN);
         }
 
+        backends.add(NeuralNetworkBackend.Coral);
+
         supportedBackends = backends;
     }
 
@@ -86,7 +89,8 @@ public class NeuralNetworkModelManager {
     private static final Logger logger = new Logger(NeuralNetworkModelManager.class, LogGroup.Config);
 
     public enum NeuralNetworkBackend {
-        RKNN(".rknn");
+        RKNN(".rknn"),
+        Coral(".coral");
 
         private String format;
 
@@ -209,6 +213,11 @@ public class NeuralNetworkModelManager {
                     models.get(backend.get()).add(new RknnModel(model, labels));
                     logger.info(
                             "Loaded model " + model.getName() + " for backend " + backend.get().toString());
+                }
+
+                case Coral -> {
+                    models.get(backend.get()).add(new CoralModel(model, labels));
+                    logger.info("Loaded model " + model.getName() + " for backend " + backend.get().toString());
                 }
             }
         } catch (IllegalArgumentException e) {

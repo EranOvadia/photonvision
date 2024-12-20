@@ -456,6 +456,7 @@ public class Main {
         logger.info("Loading ML models...");
         var modelManager = NeuralNetworkModelManager.getInstance();
         modelManager.extractModels(ConfigManager.getInstance().getModelsDirectory());
+        System.out.println(ConfigManager.getInstance().getModelsDirectory());
         modelManager.discoverModels(ConfigManager.getInstance().getModelsDirectory());
 
         logger.debug("Loading HardwareManager...");
